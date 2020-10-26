@@ -7,7 +7,7 @@ open Format
 
 %token <int> INT
 %token LPAREN RPAREN EOF 
-%token I31 D0 D1
+%token I31 D0 D1 CONS NIL
 
 %start input
 %type <unit> input
@@ -23,9 +23,20 @@ integer:
 
 int31:
   | I31 integer
-    { (to_string_dec $2) ^ "\n" }
+    { (to_string_dec $2) }
+;
+
+list_contents:
+| int31 CONS list_contents
+    { $1 ^ ";" ^ $3 }
+| NIL { "" }
+;
+
+int31_list:
+  | list_contents
+    { "[" ^ $1 ^ "]\n" }
 ;
 
 input:
-  | int31 EOF { print_string $1 }
+  | int31_list EOF { print_string $1 }
 ;

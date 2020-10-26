@@ -55,6 +55,8 @@
       val i31 : t
       val d0 : t
       val d1 : t
+      val cons : t
+      val nil : t
       val eof : t
       type s = Quoted_string_buffer.t -> Lexing.lexbuf -> t
     end
@@ -99,6 +101,8 @@ rule main buf = parse
   | "Int31.I31" { Token.i31 }
   | "Int31.D0" { Token.d0 }
   | "Int31.D1" { Token.d1 }
+  | "::" { Token.cons }
+  | "nil" { Token.nil }
   | eof { Token.eof }
 
 
@@ -133,6 +137,8 @@ rule main buf = parse
         let i31 = I31
         let d0 = D0
         let d1 = D1
+        let cons = CONS
+        let nil = NIL
         let eof = EOF
       end
     end)
