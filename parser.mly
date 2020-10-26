@@ -1,6 +1,6 @@
 %{
 (* This translator is adapted from SMTCoq's LFSC translator *)
-
+open Ast
 open Lexing
 open Format
 %}
@@ -15,15 +15,15 @@ open Format
 %%
 
 integer:
-  | D0 integer { "0"^$2 }
-  | D1 integer { "1"^$2 }
-  | D0 { "0" }
-  | D1 { "1" }
+  | D0 integer { false :: $2 }
+  | D1 integer { true :: $2 }
+  | D0 { false :: [] }
+  | D1 { true :: [] }
 ;
 
 int31:
   | I31 integer
-    { $2^"\n" }
+    { (to_string_dec $2) ^ "\n" }
 ;
 
 input:
