@@ -57,6 +57,8 @@
       val d1 : t
       val cons : t
       val nil : t
+      val int31_list : t
+      val dec_list : t
       val eof : t
       type s = Quoted_string_buffer.t -> Lexing.lexbuf -> t
     end
@@ -82,7 +84,6 @@ let dos_newline = "\013\010"
 let blank = [' ' '\009' '\012']
 let unquoted = [^ ';' '(' ')' '"' '\\' ':' '@' '!' ] # blank # lf_cr
 let digit = ['0'-'9']
-let hexdigit = digit | ['a'-'f' 'A'-'F']
 
 let unquoted_start =
   unquoted # ['#' '|'] | '#' unquoted # ['|'] | '|' unquoted # ['#']
@@ -103,6 +104,8 @@ rule main buf = parse
   | "Int31.D1" { Token.d1 }
   | "::" { Token.cons }
   | "nil" { Token.nil }
+  | "INT31" { Token.int31_list }
+  | "DEC" { Token.dec_list }
   | eof { Token.eof }
 
 
@@ -139,6 +142,8 @@ rule main buf = parse
         let d1 = D1
         let cons = CONS
         let nil = NIL
+        let int31_list = INT31_LIST
+        let dec_list = DEC_LIST
         let eof = EOF
       end
     end)

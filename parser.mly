@@ -6,7 +6,8 @@ open Format
 %}
 
 %token <int> INT
-%token LPAREN RPAREN EOF 
+%token LPAREN RPAREN EOF
+%token INT31_LIST DEC_LIST
 %token I31 D0 D1 CONS NIL
 
 %start input
@@ -26,17 +27,29 @@ int31:
     { (to_string_dec $2) }
 ;
 
-list_contents:
-| int31 CONS list_contents
+int31_list_contents:
+  | int31 CONS int31_list_contents
     { $1 ^ ";" ^ $3 }
-| NIL { "" }
+  | NIL { "" }
 ;
 
 int31_list:
-  | list_contents
-    { "[" ^ $1 ^ "]\n" }
+  | INT31_LIST int31_list_contents
+    { "[" ^ $2 ^ "]\n" }
+;
+
+dec_list_contents:
+  | INT CONS dec_list_contents
+    { (bin_to_string (dec_to_bin $1)) ^ " :: " ^ $3 }
+  | NIL { "nil" }
+;
+
+dec_list:
+  | DEC_LIST dec_list_contents
+    { $2 ^ "\n" }
 ;
 
 input:
   | int31_list EOF { print_string $1 }
+  | dec_list EOF { print_string $1 }
 ;
