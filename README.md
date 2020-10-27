@@ -26,5 +26,8 @@ Int31.I31 Int31.D0 Int31.D0 Int31.D0 Int31.D0 Int31.D0 Int31.D0 Int31.D0 Int31.D
              Int31.D0 Int31.D0 Int31.D0
 :: nil
 ```
+
+The input file can have as many of these `INT31` and `DEC` values separated by white space.
+
 Run `make` in the top level to compile. To run, enter the list of input Int31 values in a text file `test`, say,
 and call `./main.native test`. 
