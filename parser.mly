@@ -46,10 +46,17 @@ dec_list_contents:
 
 dec_list:
   | DEC_LIST dec_list_contents
-    { $2 ^ "\n" }
+    { $2 }
 ;
 
+list:
+  | int31_list { $1 }
+  | dec_list { $1 }
+
+sequence:
+  | list sequence { $1 ^ "\n\n" ^ $2 }
+  | list { $1 ^ "\n" }
+
 input:
-  | int31_list EOF { print_string $1 }
-  | dec_list EOF { print_string $1 }
+  | sequence EOF { print_string $1 }
 ;
